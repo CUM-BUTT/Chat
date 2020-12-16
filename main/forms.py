@@ -5,5 +5,5 @@ class UserLogInForm(ModelForm):
     class Meta:
         model = User
         fields = ['name', 'password', ]
-        widgets = {'name': TextInput(attrs='name'),
-                   'password': TextInput(attrs='password'),}
+        widgets = {'name': TextInput(attrs={'placeholder': 'name'}),
+                   'password': TextInput(attrs={'placeholder': 'password'}), }
