@@ -1,6 +1,6 @@
 from django.shortcuts import render
 #from .forms import UserLogInForm
-#from .models import User
+from .models import User
 
 
 def index(request) -> object:
