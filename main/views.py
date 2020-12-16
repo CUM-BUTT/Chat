@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import UserLogInForm
+from .forms import UserLogSignInForm, UserSignInForm, UserLogInForm
 
 
 def index(request) -> object:
@@ -9,7 +9,7 @@ def index(request) -> object:
 # зарегистрироваться
 def log_in(request):
     if request.method == 'POST':
-        form = UserLogInForm(request.POST)
+        form = UserLogSignInForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
@@ -30,6 +30,16 @@ def log_out(request):
 
 # авторизоваться
 def sign_in(request):
-    return render(request, 'main/html/sign_in.html')
+    if request.method == 'POST':
+        form = UserLogSignInForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+
+            context = {'user': user}
+            return render(request, 'main/html/index.html', context)
+
+    form = UserSignInForm()
+    return render(request, 'main/html/sign_in.html', {'form': form})
 
 
