@@ -1,45 +1,43 @@
-from django.shortcuts import render
-from .forms import UserLogSignInForm, UserSignInForm, UserLogInForm
+from django.contrib.auth import login, logout
+from django.shortcuts import render, redirect
+from .forms import UserSignInForm, UserLogInForm
 
 
 def index(request) -> object:
     return render(request, 'main/html/index.html')
 
-
-# зарегистрироваться
+# registration
 def log_in(request):
     if request.method == 'POST':
-        form = UserLogSignInForm(request.POST)
+        form = UserLogInForm(data=request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            user = form.save()
+            login(request, user)
 
-            context = {'user': user}
-            return render(request, 'main/html/index.html', context)
+            return redirect('home')
 
     form = UserLogInForm()
-    return render(request, 'main/html/log_in.html', {'form': form})
+    context = {'form':form}
+    return render(request, 'main/html/log_in.html', context)
 
-
-
-def log_out(request):
-    context = {'is_user_logged_in': False}
-    return render(request, 'main/html/index.html')
-
-
-# авторизоваться
+# authorization
 def sign_in(request):
     if request.method == 'POST':
-        form = UserLogSignInForm(request.POST)
+        form = UserSignInForm(data=request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
+            user = form.get_user()
+            login(request, user)
 
-            context = {'user': user}
-            return render(request, 'main/html/index.html', context)
+            return redirect('home')
 
     form = UserSignInForm()
     return render(request, 'main/html/sign_in.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return render(request, 'main/html/index.html')
+
+
+
 
 

@@ -3,8 +3,9 @@
 {% block content %}
     <form name="test" method="post">
         {% csrf_token %}
-        {{ form.name }}
-        {{ form.password }}
+        {{ form.username }}
+        {{ form.password1 }}
+        {{ form.password2 }}
 
      <p><input type="submit" value="go">
     </form>

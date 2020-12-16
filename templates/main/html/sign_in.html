@@ -1,7 +1,15 @@
-{% extends 'main/html/log_sign_in.html' %}
+{% extends 'main/html/base.html' %}
 
 
 {% block title %}
-    sign in
+    sign in (authorization)
 {% endblock title %}
 
+{% block content %}
+    <form name="test" method="post">
+        {% csrf_token %}
+        {{ form.username }}
+        {{ form.password }}
+     <p><input type="submit" value="go">
+    </form>
+{% endblock content %}
