@@ -8,8 +8,8 @@
 {% block content %}
     <form name="test" method="post">
         {% csrf_token %}
-        {{ form.username }}
-        {{ form.password }}
+        <p>{{ form.username }}</p>
+        <p>{{ form.password }}</p>
      <p><input type="submit" value="go">
     </form>
 {% endblock content %}
